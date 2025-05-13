@@ -3,45 +3,52 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
+using static System.Windows.Forms.DataFormats;
 
-namespace SparkOutputFolderModifier
+namespace CellarioRDWLogListener
 {
     class Program
     {
-        static string logDirectoryRDW = @"C:\Program Files\HighRes Biosolutions\RemoteDriverWrapper\Logs";
-        static string logFilePathRDW = @"C:\Program Files\HighRes Biosolutions\RemoteDriverWrapper\Logs\Wrapper_Driver_Driver.TecanSpark 1.1.log";
-        static string sparkOutputFolderPath = @"D:\Tecan\Workspaces";
-        static DateTime lastUpdateTime = DateTime.MinValue;
-        static readonly TimeSpan debounceDelay = TimeSpan.FromSeconds(2);
+        /*        static string logDirectoryRDW = @"C:\Program Files\HighRes Biosolutions\RemoteDriverWrapper\Logs";
+                static string logFilePathRDW = @"C:\Program Files\HighRes Biosolutions\RemoteDriverWrapper\Logs\Wrapper_Driver_Driver.TecanSpark 1.1.log";
+                static string sparkOutputFolderPath = @"D:\Tecan\Workspaces";
+                static DateTime lastUpdateTime = DateTime.MinValue;
+                static readonly TimeSpan debounceDelay = TimeSpan.FromSeconds(2);
 
-        static FileSystemWatcher logFileWatcher;
-        static FileSystemWatcher newFileDetector;
-        static string currentLogFilePath;
-
+                static FileSystemWatcher logFileWatcher;
+                static FileSystemWatcher newFileDetector;
+                static string currentLogFilePath;
+        */
+        [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Starting Cellario remote driver wrapper log listener...");
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormGUI());
+            /*            Console.WriteLine("Starting Cellario remote driver wrapper log listener...");
 
-            // Detect new RDW log files
-            newFileDetector = new FileSystemWatcher
-            {
-                Path = logDirectoryRDW,
-                Filter = "Wrapper_Driver_Driver.TecanSpark 1.1.log",
-                NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
-            };
-            newFileDetector.Created += OnNewLogFileDetected;
-            newFileDetector.EnableRaisingEvents = true;
+                        // Detect new RDW log files
+                        newFileDetector = new FileSystemWatcher
+                        {
+                            Path = logDirectoryRDW,
+                            Filter = "Wrapper_Driver_Driver.TecanSpark 1.1.log",
+                            NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
+                        };
+                        newFileDetector.Created += OnNewLogFileDetected;
+                        newFileDetector.EnableRaisingEvents = true;
 
-            // Start with latest existing RDW log file
-            string latestLog = GetLatestLogFile();
-            if (latestLog != null) // TODO: Handle other cases?
-                StartListeningLogFile(latestLog);
+                        // Start with latest existing RDW log file
+                        string latestLog = GetLatestLogFile();
+                        if (latestLog != null) // TODO: Handle other cases?
+                            StartListeningLogFile(latestLog);
 
-            Console.WriteLine("Listening...Press any key to exit."); // TODO: It should never stop by mistake!
-            Console.ReadKey();
+                        Console.WriteLine("Listening...Press any key to exit."); // TODO: It should never stop by mistake!
+                        Console.ReadKey();
+            */
         }
 
-        static string GetLatestLogFile()
+/*        static string GetLatestLogFile()
         {
             // TODO: I remember two new log files are created every day...we only need to select the specific driver file
             return Directory.GetFiles(logDirectoryRDW, "Wrapper_Driver_Driver.TecanSpark 1.1.log")
@@ -160,5 +167,6 @@ namespace SparkOutputFolderModifier
 
             return directories.FirstOrDefault();
         }
+*/
     }
 }
